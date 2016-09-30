@@ -1,0 +1,22 @@
+#!/bin/bash
+
+CLIPBOARD=$(xsel -b -o)
+if TITLE=$(youtube-dl -q --no-playlist -e "$CLIPBOARD" 2>/dev/null); then
+	TITLE=${TITLE//&/and}
+	TITLE=${TITLE//>/}
+	TITLE=${TITLE//</}
+else
+	notify-send "playVid:" "Unforseen Consecvenses"
+	exit
+fi
+
+if youtube-dl --no-playlist -s -q -f bestvideo "$CLIPBOARD" > /dev/null 2>&1 ;  then
+	bspc rule -a mpv -o desktop=V
+	notify-send "playMedia - MPV:" "$TITLE"
+	mpv $CLIPBOARD
+else
+	notify-send "playMedia - MPV:" "$TITLE"
+	bspc rule -a URxvt -o desktop=V state=floating center=on
+	urxvt -e mpv "$CLIPBOARD"
+fi
+
