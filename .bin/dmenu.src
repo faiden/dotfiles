@@ -1,0 +1,5 @@
+dmenu()
+{
+local DMENU_OPTS="-fn "proggycleantt" -nb "#151515" -nf "#888888" -sb "#0d0d0d" -sf "#4E9FB1" -b -l 10 -p $(basename $0)"
+command dmenu $DMENU_OPTS "$@"
+}

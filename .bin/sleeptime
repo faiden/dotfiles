@@ -1,0 +1,77 @@
+#!/bin/bash
+# It takes the average human anywhere in-between 10-30 minutes to fall asleep. For this calculation we've used an absolute average value of 15 minutes.
+# Sleep cycles typically last 90 minutes.
+# A good night's sleep consists of 5-6 complete sleep cycles
+
+# 2015-05-04 // First Commit
+# 2015-05-06 // Added menu and quick commands
+
+now() {
+cycle="6"
+time="105"
+#clear
+#echo "You should try to wake up at one of the following times:"
+until [ $cycle -lt 1 ]; do
+		hour="$(($time / 60))"
+		min="$(($time - $hour * 60))"
+		clock=$(date -d "now +$time minutes" +'%H:%M')
+	echo "$clock - $hour:$min"
+	let time+=90
+	let cycle-=1
+done
+}
+
+sleepAt() {
+cycle="6"
+time="90"
+#newTime=$2
+#clear
+#echo "You should try to wake up at one of the following times:"
+until [ $cycle -lt 1 ]; do
+			hour="$(($time / 60))"
+			min="$(($time - $hour * 60))"	
+			clock=$(date -d "$newTime today +$time minutes" +'%H:%M')
+			echo "$clock - $hour:$min"
+	let time+=90
+	let cycle-=1
+done
+}
+
+wakeAt() {
+cycle="4"
+time="540"
+#read newTime
+#clear
+#echo "You should try to fall asleep at one of the following times:"
+until [ $cycle -lt 1 ]; do
+	hour="$(($time / 60))"
+	min="$(($time - $hour * 60))"	
+	clock=$(date -d "$newTime today -$time minutes" +'%H:%M')
+	echo "$clock - $hour:$min"
+	let time-=90
+	let cycle-=1
+done
+}
+
+# Condition system
+
+if [[ -z $1 ]];then
+echo "Please enter  either awake or sleep followed by a 24h format time"
+echo "enter \"now\" to check when you are supose to wake up"
+elif [[ $1 = "now" ]]; then
+now
+elif [[ $1 = "sleep" ]] && [[ $2 =~ ^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ ]]; then
+newTime=$2
+sleepAt
+elif [[ $1 = "sleep" ]] && [[ -z $2 ]]; then
+echo "Need correct sleep time 24h format XX:XX"
+elif [[ $1 = "awake" ]] && [[ $2 =~ ^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ ]]; then
+newTime=$2
+wakeAt
+elif [[ $1 = "awake" ]] && [[ -z $2 ]]; then
+echo "Need correct awake time 24h format XX:XX"
+else
+echo "Please enter  either awake or sleep followed by a 24h format time"
+exit 0
+fi
+

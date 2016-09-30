@@ -1,0 +1,16 @@
+#!/bin/bash
+#Use youtube-dl -F to find audio only format
+#Only need to add last letters of youtube link
+
+title=$(youtube-dl -e $1 2>/dev/null)
+if [[ $? -eq 0 ]]; then
+	echo "It checks out"
+else
+	echo "Unforseen Consecvenses" ; exit 1
+fi
+
+mpc -p 6600 -h 192.168.0.3 add $(youtube-dl --prefer-insecure -g -f 140 $1)
+PLAYLIST=$(mpc -p 6600 -h 192.168.0.3 playlist |wc -l)
+mpc -p 6600 -h 192.168.0.3 --no-status play $PLAYLIST
+notify-send "MPD:" "$title"
+

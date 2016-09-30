@@ -1,0 +1,220 @@
+#!/bin/sh
+# Add if error code and check if it works with negative numbers
+# Where do we want the info from?
+LOCATION="http://www.yr.no/place/Sverige/V%C3%A4stra_G%C3%B6taland/Bor%C3%A5s/varsel.xml"
+
+
+# Cache in seconds (minimum 600 = 10 minutes by Yr.no usage rules
+CACHETIME="900"
+
+# Set cachefile
+FILE="/tmp/varsel.xml"
+
+GREEN="%{F#546a29}"
+#GREEN="%{F#8c9440}"
+#GREEN="%{F#b5bd68}" 
+#YELLOW="%{F#96A62D}"
+#YELLOW="%{F#de935f}"
+YELLOW="%{F#f0c674}"
+RED="%{F#8d4a4a}"
+#RED="%{F#a54242}"
+#RED="%{F#cc6666}"
+GRAY="%{F#E6373B41}"
+CYAN="%{F#5e8d87}"
+CYAN2="%{F#8abeb7}"
+BLUE="%{F#5f819d}"
+BLUE2="%{F#81a2be}"
+MAGENTA="%{F#85678f}"
+#MAGENTA="%{F#b294bb}"
+WHITE="%{F#707880}"
+#WHITE="%{F#c5c8c6}"
+#BLACK="%{F#282a2e}"
+BLACK="%{F#373b41}"
+
+# Chech if the file has been grabbed the last 10 minutes if not we go and get a new copy
+
+if [ -s ${FILE} ]; then
+if [ $(stat --format=%Y ${FILE}) -le $(( $(date +%s) - ${CACHETIME} )) ]; then
+wget -q -O ${FILE} ${LOCATION} >/dev/null 2>&1
+fi
+else
+wget -q -O ${FILE} ${LOCATION} >/dev/null 2>&1
+fi
+
+if [[ $? -eq 0 ]]; then
+FORECAST=$(cat $FILE) #°
+FORECAST=${FORECAST%%pressure*}
+
+ICON=${FORECAST##*number=\"}
+ICON=${ICON%%\"*}
+
+SKY=${FORECAST##*symbol}
+SKY=${SKY#*name=\"}
+SKY=${SKY%%\"*}
+
+WIND=${FORECAST##*name=\"}
+WIND=${WIND%%\"*}
+
+TEMP=${FORECAST##*value=\"}
+TEMP=${TEMP%%\"*}
+
+PREC=${FORECAST#*value=\"}
+PREC=${PREC%%\"*}
+
+# Precipitation
+if (( $(bc <<< "$PREC <= 0") ))
+then
+unset PREC
+else
+PREC="${BLUE} ${PREC}mm%{F-}"
+fi
+
+# Temperature colour
+if [ $TEMP -le "0" ]; then
+TEMP="$BLUE${TEMP}%{F-}"
+elif [ $TEMP -le "5" ]; then
+TEMP="${TEMP}"
+elif [ $TEMP -lt "10" ]; then
+TEMP="$YELLOW${TEMP}%{F-}"
+else
+TEMP="$RED${TEMP}%{F-}"
+fi
+ 
+#ICON="1"
+
+case $ICON in
+1)
+ICON="${YELLOW}\uf00d"
+;;
+2)
+ICON="${YELLOW}\uf00c"
+;;
+3)
+ICON="\uf002"
+;;
+4)
+ICON="\uf013"
+;;
+5)
+ICON="${BLUE}\ue22f"
+;;
+6)
+ICON="\uf00e"
+;;
+7)
+ICON="${BLUE}\uf017"
+;;
+8)
+ICON="${BLUE}\uf0b2"
+;;
+9)
+ICON="${BLUE}\uf01a"
+;;
+10)
+ICON="\uf015"
+;;
+11)
+ICON="${BLUE}\uf019"
+;;
+12)
+ICON="\uf0b5"
+;;
+13)
+ICON="\ue22e"
+;;
+14)
+ICON="\uf06b"
+;;
+15)
+ICON="\uf014"
+;;
+20)
+ICON="\uf068"
+;;
+21)
+ICON="\uf06b"
+;;
+22)
+ICON="\uf00e"
+;;
+23)
+ICON="\uf068"
+;;
+24)
+ICON="\uf00e"
+;;
+25)
+ICON="\uf010"
+;;
+26)
+ICON="\uf068"
+;;
+27)
+ICON="\uf068"
+;;
+28)
+ICON="\uf06b"
+;;
+29)
+ICON="\uf06b"
+;;
+30)
+ICON="\uf00e"
+;;
+31)
+ICON="\uf068"
+;;
+32)
+ICON="\uf068"
+;;
+33)
+ICON="\uf06b"
+;;
+34)
+ICON="\uf06b"
+;;
+40)
+ICON="\uf009"
+;;
+41)
+ICON="${BLUE}\uf007"
+;;
+42)
+ICON="\uf0b2"
+;;
+43)
+ICON="\uf0b2"
+;;
+44)
+ICON="\uf00a"
+;;
+45)
+ICON="\uf065"
+;;
+46)
+ICON="${BLUE}\uf01c"
+;;
+47)
+ICON="\uf0b5"
+;;
+48)
+ICON="\uf0b5"
+;;
+49)
+ICON="\uf01b"
+;;
+50)
+ICON="${YELLOW}\uf064"
+;;
+*)
+ICON="${RED}FIX ICON!"
+;;
+esac
+
+printf "%s" "%{F#707880}${ICON}%{F-} ${TEMP}°, $SKY${PREC} ($WIND) "
+else
+exit 1
+fi
+
+#TEMP=$(curl -s $LOCATION |grep temperature |head -n 1 |cut -d\" -f4)
+#echo "$TEMPi°"

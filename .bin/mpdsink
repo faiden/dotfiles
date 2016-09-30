@@ -1,0 +1,17 @@
+#!/bin/bash
+case $1 in
+	disable)
+		# Enable the raspi sink
+		mpc -p 6600 -h 192.168.0.3 disable "Pulseaudio sink"
+		dunstify --replace=1338 -a notify-send "mpd sink:" "Off"
+    ;;
+	enable)
+	  mpc -p 6600 -h 192.168.0.3 enable "Pulseaudio sink"
+		dunstify --replace=1338 -a notify-send "mpd sink:" "On"
+	  ;;
+	*)
+	  # this line should never execute
+	  echo "Undefined behaviour: $1" > /home/faiden/mpd_raspi_sink.error.log 
+	  ;;
+esac
+exit 0

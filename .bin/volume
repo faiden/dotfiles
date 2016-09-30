@@ -1,0 +1,28 @@
+#!/bin/bash
+
+case $1 in
+	up)
+		mpc -p 6600 -h 192.168.0.3 -q volume +1
+		;;
+	down)
+		mpc -p 6600 -h 192.168.0.3 -q volume -1
+		;;
+	*)
+		# Just the normal mpc output
+		mpc -p 6600 -h 192.168.0.3 volume 
+		;;
+esac
+
+# Get the current volume
+volume=$(mpc -p 6600 -h 192.168.0.3 volume)
+volume=${volume//[!0-99]/}
+
+let _progress=(${volume}*100)/100
+let _done=(${_progress}*4)/10
+let _left=40-$_done
+# Build progressbar string lengths
+	_done=$(printf "%${_done}s")
+	_left=$(printf "%${_left}s")
+
+dunstify --replace=1337 -a notify-send  "🔊 volume:" "${_done// /▉}${_left// /░} ${_progress}%"
+

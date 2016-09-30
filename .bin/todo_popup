@@ -1,0 +1,33 @@
+#!/bin/bash
+# A script that watches a file and spawns a terminal window
+# The terminal window respanws when new entrys gets added or removed
+# Faiden 2015-03-07
+# 2015-04-12 Add the removal of terminal cursor (not working)
+
+# Add if file exsist
+startLines=$(cat .todo |nl |tail -n 1 |awk '{print $1+1}')
+#	Spawn First Window
+bspc rule -a tits -o floating=on
+bspc rule -a tits -o desktop=f
+urxvt -g 30x$startLines+1088+62 -name tits -hold -e bash -c "watch -x -t nl -w 2 -s ' ' ~/.todo" &
+while true; do
+	# Check if the lines have changed
+	updatedLines=$(cat .todo |nl |tail -n 1 |awk '{print $1+1}')
+	if [ $startLines -gt $updatedLines ] || [ $startLines -lt $updatedLines ]; then
+		echo "Respawn window"
+		# kill first window
+		while [[ $? -eq 0 ]]; do
+			kill $(ps aux |grep "[u]rxvt -g" | awk '{print $2}' |head -n 1) 2>/dev/null
+		done
+		# Spawn the new one
+		bspc rule -a urxvt -o floating=on
+		bspc rule -a urxvt -o desktop=f
+		# Remove the Terminal Cursor
+		urxvt -g 30x$updatedLines+1088+62 -hold -e bash -c "watch -x -t nl -w 2 -s ' ' ~/.todo" &
+	fi
+	# Remove the Terminal Cursor
+	tput civis
+	sleep 10
+	# Reset the lines to the new updated lines
+	startLines=$updatedLines
+done

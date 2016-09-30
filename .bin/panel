@@ -1,0 +1,50 @@
+#!/bin/bash
+
+if xdo id -a "$PANEL_WM_NAME" > /dev/null ; then
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
+fi
+
+. panel_colors
+
+# Functions/Sections
+
+Time() {
+	date +'%R'
+}
+
+Date() {
+	date +'%a(%d) %b(%m)'
+}
+
+cpu() {
+	cpuload=$(uptime)
+	printf "%s " ${cpuload/#*average:}
+}
+# Main
+#
+
+wid=$(xdo id -a "$PANEL_WM_NAME")
+tries_left=20
+while [ -z "$wid" -a "$tries_left" -gt 0 ] ; do
+	sleep 0.05
+	wid=$(xdo id -a "$PANEL_WM_NAME")
+	tries_left=$((tries_left - 1))
+done
+[ -n "$wid" ] && xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "$wid"
+
+wait
+
+while :; do
+    buf=""
+    buf="${buf}$(panel_music.sh)"
+    buf="${buf}%{r}$(panel_mail.sh) "
+    buf="${buf}%{A:img_popup.sh popup:}%{A3:img_popup.sh kill:}$(weather)%{A}%{A}"
+    buf="${buf}${BLACK}\ue224 %{F-}$(panel_mem.sh)"
+    buf="${buf} ${BLACK}\ue021 %{F-}$(cpu)"
+    buf="${buf}${BLACK}\ue0cf%{F-}$(panel_temp.sh)"
+    buf="${buf}${BLACK}\ue266 %{F-}$(Date)"
+		buf="${buf}%{A:dzen-cal.sh:}${BLACK}\ue017%{F-}$(Time) %{A}"
+    printf "%b\n" "$buf"
+		sleep 1
+done
