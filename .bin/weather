@@ -1,14 +1,16 @@
 #!/bin/sh
 # Add if error code and check if it works with negative numbers
 # Where do we want the info from?
-LOCATION="http://www.yr.no/place/Sverige/V%C3%A4stra_G%C3%B6taland/Bor%C3%A5s/varsel.xml"
+#LOCATION="http://www.yr.no/place/Sverige/V%C3%A4stra_G%C3%B6taland/Bor%C3%A5s/varsel.xml"
+LOCATION="https://www.yr.no/place/Sweden/V%C3%A4stra_G%C3%B6taland/Bor%C3%A5s_Kommun/forecast.xml"
 
 
 # Cache in seconds (minimum 600 = 10 minutes by Yr.no usage rules
 CACHETIME="900"
 
 # Set cachefile
-FILE="/tmp/varsel.xml"
+#FILE="/tmp/varsel.xml"
+FILE="/tmp/forecast.xml"
 
 GREEN="%{F#546a29}"
 #GREEN="%{F#8c9440}"
@@ -217,4 +219,4 @@ exit 1
 fi
 
 #TEMP=$(curl -s $LOCATION |grep temperature |head -n 1 |cut -d\" -f4)
-#echo "$TEMPi°"
+#echo "$TEMP°"
