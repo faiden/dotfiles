@@ -13,10 +13,10 @@ fi
 if youtube-dl --no-playlist -s -q -f bestvideo "$CLIPBOARD" > /dev/null 2>&1 ;  then
 	bspc rule -a mpv -o desktop=V
 	notify-send "playMedia - MPV:" "$TITLE"
-	mpv $CLIPBOARD
+	mpv --autofit-larger=80% $CLIPBOARD 
 else
 	notify-send "playMedia - MPV:" "$TITLE"
 	bspc rule -a URxvt -o desktop=V state=floating center=on
-	urxvt -e mpv "$CLIPBOARD"
+	urxvt -e mpv --no-audio-display "$CLIPBOARD"
 fi
 
