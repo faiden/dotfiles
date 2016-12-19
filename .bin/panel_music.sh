@@ -16,6 +16,7 @@ if [[ -n $MPC ]]; then
 	MPC_TITLE=${MPC_TITLE//Ã³/ó} # -- 
 	MPC_TITLE=${MPC_TITLE//Ãµ/õ} # --
 	MPC_TITLE=${MPC_TITLE//Ã¡/á} # --
+	MPC_TITLE=${MPC_TITLE//Ã¼/ü} # --
 	MPC_TITLE=${MPC_TITLE#*'Now playing: '}
 	MPC_TITLE=${MPC_TITLE%%'- Join us on IRC'*}
 	if [[ $MPC == *\[playing\]* ]]; then
