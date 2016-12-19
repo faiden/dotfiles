@@ -38,7 +38,7 @@ wait
 while :; do
     buf=""
     buf="${buf}$(panel_music.sh)"
-    buf="${buf}%{r}$(panel_mail.sh) "
+  	buf="${buf}%{r}$(panel_mail.sh) "
     buf="${buf}%{A:img_popup.sh popup:}%{A3:img_popup.sh kill:}$(weather)%{A}%{A}"
     buf="${buf}${BLACK}\ue224 %{F-}$(panel_mem.sh)"
     buf="${buf} ${BLACK}\ue021 %{F-}$(cpu)"
