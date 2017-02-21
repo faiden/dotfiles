@@ -37,10 +37,10 @@ BLACK="%{F#373b41}"
 
 if [ -s ${FILE} ]; then
 if [ $(stat --format=%Y ${FILE}) -le $(( $(date +%s) - ${CACHETIME} )) ]; then
-wget -q -O ${FILE} ${LOCATION} >/dev/null 2>&1
+wget -q -O ${FILE} ${LOCATION} -o /tmp/wget.log
 fi
 else
-wget -q -O ${FILE} ${LOCATION} >/dev/null 2>&1
+wget -q -O ${FILE} ${LOCATION} -o /tmp/wget.log
 fi
 
 if [[ $? -eq 0 ]]; then
