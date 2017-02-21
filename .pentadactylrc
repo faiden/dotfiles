@@ -1,0 +1,30 @@
+"hg7166
+
+loadplugins '\.(js|penta)$'
+group user
+map -count -modes=n,v gb <count>:dialog<Space>bookmarks<Return>
+map -count -modes=n,v h -builtin <count>8h
+map -count -modes=n,v j -builtin <count>8j
+map -count -modes=n,v k -builtin <count>8k
+map -count -modes=n,v l -builtin <count>8l
+
+" # Quick Marks
+
+silent qmark r https://www.reddit.com
+silent qmark y https://www.youtube.com
+silent qmark t http://192.168.0.2/rutorrent/
+"silent qmark t http://192.168.0.2/rutorrent
+silent qmark g http://timer.silversunshine.net/
+
+set cdpath=''
+set editor='urxvt -name shiva -e vim -f +<line> +"sil! call cursor(0, <column>)" <file>'
+set hintkeys=asdflkj
+set hlfind
+set scrolltime=0
+set noincfind
+colorscheme faiden 
+" vim: set ft=pentadactyl:
+set defsearch=duckduckgo
+" au DownloadPost * silent !/home/faiden/.bin/dl_move "<file>"
+"Open history search completion
+"set complete=search,native:unifiedcomplete,file
