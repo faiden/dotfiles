@@ -15,6 +15,7 @@ silent qmark y https://www.youtube.com
 silent qmark t http://192.168.0.2/rutorrent/
 "silent qmark t http://192.168.0.2/rutorrent
 silent qmark g http://timer.silversunshine.net/
+silent qmark p https://mail.protonmail.com/login
 
 set cdpath=''
 set editor='urxvt -name shiva -e vim -f +<line> +"sil! call cursor(0, <column>)" <file>'
