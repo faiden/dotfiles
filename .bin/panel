@@ -18,8 +18,8 @@ Date() {
 }
 
 cpu() {
-	cpuload=$(uptime)
-	printf "%s " ${cpuload/#*average:}
+IFS=' ' read -a loadavg < /proc/loadavg
+printf "%s " "${loadavg[@]:0:3}"
 }
 # Main
 #
@@ -38,12 +38,12 @@ wait
 while :; do
     buf=""
     buf="${buf}$(panel_music.sh)"
-  	buf="${buf}%{r}$(panel_mail.sh) "
-    buf="${buf}%{A:img_popup.sh popup:}%{A3:img_popup.sh kill:}$(weather)%{A}%{A}"
-    buf="${buf}${BLACK}\ue224 %{F-}$(panel_mem.sh)"
-    buf="${buf} ${BLACK}\ue021 %{F-}$(cpu)"
+#  	buf="${buf}%{r}$(panel_mail.sh) "
+    buf="${buf}%{r}%{A:img_popup.sh popup:}%{A3:img_popup.sh kill:}$(weather)%{A}%{A}"
+    buf="${buf}${BLACK}\ue224%{F-}$(panel_mem.sh)"
+    buf="${buf} ${BLACK}\ue021%{F-}$(cpu)"
     buf="${buf}${BLACK}\ue0cf%{F-}$(panel_temp.sh)"
-    buf="${buf}${BLACK}\ue266 %{F-}$(Date)"
+    buf="${buf}${BLACK}\ue266%{F-}$(Date)"
 		buf="${buf}%{A:dzen-cal.sh:}${BLACK}\ue017%{F-}$(Time) %{A}"
     printf "%b\n" "$buf"
 		sleep 1
