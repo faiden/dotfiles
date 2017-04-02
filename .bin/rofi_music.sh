@@ -10,7 +10,7 @@ if [[ -z "$MPC" ]]; then
 	dunstify "MPD:" "No connection to ${IP}:$PORT" && exit $?;
 fi
 
-MPC_PLAYLIST="$(mpc -h $IP -p $PORT playlist |nl -s ' - ')"
+MPC_PLAYLIST="$(mpc -h $IP -p $PORT playlist -f playlist -f "[%id% - ][[%artist% - ][%title% - ][%album%]|[%file%]")"
 
 # Check the state of MPD
 if [[ $MPC == *\[playing\]* ]]; then
@@ -29,7 +29,7 @@ else
 fi
 
 # show rofi playlist and promp
-ROFI_INPUT="$(printf %s "$MPC_PLAYLIST" |rofi -dmenu -selected-row "$MPC_POSITION" -i -p "${MPC_STATE}Search:" "$@")"
+ROFI_INPUT="$(printf %s "$MPC_PLAYLIST" |rofi -theme /home/faiden/.config/rofi/faiden.rasi -dmenu -selected-row "$MPC_POSITION" -i -p "${MPC_STATE}Search:" "$@")"
 
 # MPD Controls
 case $ROFI_INPUT in
