@@ -1,8 +1,8 @@
 "-------------------GUI ---------------------
 colorscheme jellybeans
-if has('gui_running')
-  set guifont=xft:Inconsolata\ for\ Powerline\ 10
-endif
+"if has('gui_running')
+"  set guifont=xft:Inconsolata\ for\ Powerline\ 10
+"endif
 scriptencoding utf-8
 set encoding=utf-8
 
@@ -37,7 +37,7 @@ set cmdheight=2
 set number
 set notimeout ttimeout ttimeoutlen=200
 set pastetoggle=<F11>
-execute pathogen#infect()
+"execute pathogen#infect()
 " ---------------- INDENT -------------------
 set autoindent
 set shiftwidth=2
@@ -48,66 +48,67 @@ map Y y$
 nnoremap <C-L> :nohl<CR><C-L>
 
 " --------------- LIGHTLINE -----------------
-let g:lightline = {
-      \ 'colorscheme': 'landscape',
-      \ 'mode_map': { 'c': 'NORMAL' },
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
-      \ },
-      \ 'component_function': {
-      \   'modified': 'MyModified',
-      \   'readonly': 'MyReadonly',
-      \   'fugitive': 'MyFugitive',
-      \   'filename': 'MyFilename',
-      \   'fileformat': 'MyFileformat',
-      \   'filetype': 'MyFiletype',
-      \   'fileencoding': 'MyFileencoding',
-      \   'mode': 'MyMode',
-      \ },
-      \ 'separator': { 'left': '⮀', 'right': '⮂' },
-      \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
-      \ }
+"let g:lightline = {
+"      \ 'colorscheme': 'landscape',
+"      \ 'mode_map': { 'c': 'NORMAL' },
+"      \ 'active': {
+"      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+"      \ },
+"      \ 'component_function': {
+"      \   'modified': 'MyModified',
+"      \   'readonly': 'MyReadonly',
+"      \   'fugitive': 'MyFugitive',
+"      \   'filename': 'MyFilename',
+"      \   'fileformat': 'MyFileformat',
+"      \   'filetype': 'MyFiletype',
+"      \   'fileencoding': 'MyFileencoding',
+"      \   'mode': 'MyMode',
+"      \ },
+"      \ 'separator': { 'left': '⮀', 'right': '⮂' },
+"      \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+"      \ }
 
-function! MyModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
+"function! MyModified()
+"  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+"endfunction
 
-function! MyReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
-endfunction
+"function! MyReadonly()
+"  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+"endfunction
 
-function! MyFilename()
-  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() : 
-        \  &ft == 'unite' ? unite#get_status_string() : 
-        \  &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
-endfunction
+"function! MyFilename()
+"  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+"        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() : 
+"        \  &ft == 'unite' ? unite#get_status_string() : 
+"        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+"        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+"        \ ('' != MyModified() ? ' ' . MyModified() : '')
+"endfunction
 
-function! MyFugitive()
-  if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
-    let _ = fugitive#head()
-    return strlen(_) ? '⭠'._ : ''
-  endif
-  return ''
-endfunction
+"function! MyFugitive()
+"  if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
+"    let _ = fugitive#head()
+"    return strlen(_) ? '⭠'._ : ''
+"  endif
+"  return ''
+"endfunction
 
-function! MyFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
+"function! MyFileformat()
+"  return winwidth(0) > 70 ? &fileformat : ''
+"endfunction
 
-function! MyFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
+"function! MyFiletype()
+"  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+"endfunction
 
-function! MyFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
+"function! MyFileencoding()
+"  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+"endfunction
 
-function! MyMode()
-  return winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
+"function! MyMode()
+"  return winwidth(0) > 60 ? lightline#mode() : ''
+"endfunction
+
 hi TabLineFill term=bold cterm=bold ctermbg=100
 " Hardmode Vim no arrowkeys just hjkl 
 noremap <Up> <NOP>
@@ -116,3 +117,10 @@ noremap <Left> <NOP>
 noremap <Right> <NOP>
 
 filetype indent on
+set guicursor=
+call plug#begin('~/.vim/plugged')
+Plug 'scrooloose/nerdtree'
+Plug 'skammer/vim-css-color'
+"Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+
+call plug#end()
