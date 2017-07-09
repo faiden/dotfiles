@@ -26,6 +26,8 @@ set noincfind
 colorscheme faiden 
 " vim: set ft=pentadactyl:
 set defsearch=duckduckgo
-" au DownloadPost * silent !/home/faiden/.bin/dl_move "<file>"
 "Open history search completion
 "set complete=search,native:unifiedcomplete,file
+set scrollsteps=1
+set findcase=smart
+hi -a Hint font-size: 9pt !important;
