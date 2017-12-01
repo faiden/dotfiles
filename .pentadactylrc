@@ -31,3 +31,4 @@ set defsearch=duckduckgo
 set scrollsteps=1
 set findcase=smart
 hi -a Hint font-size: 9pt !important;
+style -name ublick * #nav-bar * { visibility: visible; }
