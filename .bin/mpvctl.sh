@@ -6,7 +6,7 @@
 #   I recommend an alias in your .bashrc or equivalent file:
 #       alias mpv="mpv --input-unix-socket=$HOME/.mpv/socket"
 
-socket="/home/faiden/.mpv/socket"
+socket="$HOME/.mpv/socket"
 
 command() {
     # JSON preamble.
