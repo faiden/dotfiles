@@ -49,7 +49,6 @@ fi
 # Check if mpd is playing/paused etc and output the title/progression as background color behind the current title.
 case "${_mpc[1]}" in
 	*\[playing\]*)
-		#printf "%s" "\r ▶ $_mpc_title%{F-}"
 		 printf "%s" "\r ▶ %{B#373b41}${_mpc_title:0:$_title_progress}""%{B-}""${_mpc_title:$_title_progress}%{F-}"
 		;;
 	*\[paused\]*)
