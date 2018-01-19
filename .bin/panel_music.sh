@@ -40,6 +40,7 @@ _mpc_title=${_mpc_title%%'- Join us on IRC'*}
 
 # Make sure that the lenght of the song title does not go above 66. The song title aligned to left and the rest right.
 # 66 is usually the most characters that I can show of the song.
+# Check the length of the current song title and calculate the % based of the length to show background for
 if [[ ${#_mpc_title} -le "66" ]]; then
 	_title_progress="$(($((${#_mpc_title}*${_mpc_progress}))/100))"
 else
