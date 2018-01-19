@@ -213,7 +213,7 @@ ICON="${RED}FIX ICON!"
 ;;
 esac
 
-printf "%s" "%{F#707880}${ICON}%{F-} ${TEMP}°, $SKY${PREC} ($WIND) "
+printf "%s" " %{F#707880}${ICON}%{F-} ${TEMP}°, $SKY${PREC} ($WIND) "
 else
 exit 1
 fi
