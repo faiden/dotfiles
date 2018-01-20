@@ -38,13 +38,18 @@ _mpc_title=${_mpc_title//Ö©/é}
 _mpc_title=${_mpc_title#*'Now playing: '}
 _mpc_title=${_mpc_title%%'- Join us on IRC'*}
 
-# Make sure that the lenght of the song title does not go above 66. The song title aligned to left and the rest right.
+# Make sure that the lenght of the song title does not go above 65. The song title aligned to left and the rest right.
 # 66 is usually the most characters that I can show of the song.
 # Check the length of the current song title and calculate the % based of the length to show background for
-if [[ ${#_mpc_title} -le "66" ]]; then
+
+if [[ ${#_mpc_title} -le "65" ]]; then
+	#Fill upp the unused space with "space" so the progress of song covers the remaining bar for a more constant look
+	_spaces="                                                                            "
+	_filler="$((65-${#_mpc_title}))"
+	_mpc_title=" ${_mpc_title}${_spaces:0:$_filler}"
 	_title_progress="$(($((${#_mpc_title}*${_mpc_progress}))/100))"
 else
-	_title_progress="$(($((66*${_mpc_progress}))/100))"
+	_title_progress="$(($((65*${_mpc_progress}))/100))"
 fi
 
 # Check if mpd is playing/paused etc and output the title/progression as background color behind the current title.
