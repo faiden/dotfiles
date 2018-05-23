@@ -14,7 +14,7 @@ _mpc=$(mpc -h $_ip -p $_port 2>/dev/null)
 IFS=$'\n' read -ra _mpc -d '' <<<"$_mpc"
 
 # Get the song title
-_mpc_title=${_mpc[0]}
+_mpc_title=" ${_mpc[0]}"
 
 # Get the Current progress of the song
 _mpc_progress="${_mpc[1]}"
@@ -46,7 +46,7 @@ if [[ ${#_mpc_title} -le "65" ]]; then
 	#Fill upp the unused space with "space" so the progress of song covers the remaining bar for a more constant look
 	_spaces="                                                                            "
 	_filler="$((65-${#_mpc_title}))"
-	_mpc_title=" ${_mpc_title}${_spaces:0:$_filler}"
+	_mpc_title="${_mpc_title}${_spaces:0:$_filler}"
 	_title_progress="$(($((${#_mpc_title}*${_mpc_progress}))/100))"
 else
 	_title_progress="$(($((65*${_mpc_progress}))/100))"
@@ -55,10 +55,10 @@ fi
 # Check if mpd is playing/paused etc and output the title/progression as background color behind the current title.
 case "${_mpc[1]}" in
 	*\[playing\]*)
-		 printf "%s" "\r ▶ %{B#373b41}${_mpc_title:0:$_title_progress}""%{B-}""${_mpc_title:$_title_progress}%{F-}"
+		 printf "%s" "\r ▶ %{B#282a2e}${_mpc_title:0:$_title_progress}""%{B-}""${_mpc_title:$_title_progress}%{F-}"
 		;;
 	*\[paused\]*)
-		printf "%s" "\r ▮▮ %{B#373b41}${_mpc_title:0:$_title_progress}""%{B-}""${_mpc_title:$_title_progress}%{F-}"
+		printf "%s" "\r ▮▮ %{B#282a2e}${_mpc_title:0:$_title_progress}""%{B-}""${_mpc_title:$_title_progress}%{F-}"
 		;;
 	volume*)
 		printf "%s" "\r ◾"	

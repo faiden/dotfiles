@@ -6,8 +6,8 @@ if TITLE=$(youtube-dl -q --no-playlist -e "$CLIPBOARD" 2>&1); then
 	TITLE=${TITLE//>/}
 	TITLE=${TITLE//</}
 else
-	#notify-send "playVid:" "Unforseen Consecvenses"
-	notify-send "playVid: " "$TITLE"
+	notify-send "playVid:" "Unforseen Consecvenses"
+	#notify-send "playVid: " "$TITLE"
 	exit
 fi
 
